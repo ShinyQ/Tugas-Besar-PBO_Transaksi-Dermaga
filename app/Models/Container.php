@@ -11,11 +11,13 @@ class Container
 
     public function save(): bool
     {
-        DB::insert('insert into '. $this->table .' (number, type, size) values (?, ?, ?)',
-            [$this->getNumber(), $this->getType(), $this->getSize()]
+        return DB::insert('insert into '. $this->table .' (number, type, size) values (?, ?, ?)',
+            [
+                $this->getNumber(),
+                $this->getType(),
+                $this->getSize()
+            ]
         );
-
-        return true;
     }
 
     public function __construct($number, $type, $size)
