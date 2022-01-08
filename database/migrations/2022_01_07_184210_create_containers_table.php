@@ -15,6 +15,7 @@ class CreateContainersTable extends Migration
     {
         Schema::create('containers', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('ship_id')->constrained()->onDelete('cascade');
             $table->string('number');
             $table->string('type');
             $table->string('size');

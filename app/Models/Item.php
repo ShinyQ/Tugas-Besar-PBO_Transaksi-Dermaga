@@ -71,16 +71,6 @@ class Item
         $this->container = $container;
     }
 
-    public function save(): bool
-    {
-        DB::insert('insert into items (name, weight, container_id) values (?, ?, ?)',
-            [$this->getName(), $this->getWeight(), $this->getContainer()]
-        );
-
-        return true;
-    }
-
-
     public function get(): \Illuminate\Support\Collection
     {
         return DB::table($this->table)
