@@ -2,28 +2,58 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 
 class Container
 {
     private $table = 'containers';
-    private $number, $type, $size;
+    private $number, $type, $size, $ship_id;
 
-    public function save(): bool
+    public function save($id = null): bool
     {
-        DB::insert('insert into '. $this->table .' (number, type, size) values (?, ?, ?)',
-            [$this->getNumber(), $this->getType(), $this->getSize()]
+        return DB::table('containers')->updateOrInsert(
+            [
+                'id' => $id
+            ], [
+                'ship_id' => $this->getShipId(),
+                'number' => $this->getNumber(),
+                'type' => $this->getType(),
+                'size' => $this->getSize(),
+                'created_at' => Carbon::now()
+            ]
         );
-
-        return true;
+    }
+    public function delete($id) : bool
+    {
+        return DB::table('containers')->where('id', '=', $id)->delete();
     }
 
-    public function __construct($number, $type, $size)
+    public function __construct($ship_id, $number, $type, $size)
     {
+        $this->ship_id = $ship_id;
         $this->number = $number;
         $this->type = $type;
         $this->size = $size;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getShipId()
+    {
+        return $this->ship_id;
+    }
+
+    /**
+     * @param mixed $ship_id
+     */
+    public function setShipId($ship_id): void
+    {
+        $this->ship_id = $ship_id;
+    }
+
+
 
     /**
      * @return mixed
