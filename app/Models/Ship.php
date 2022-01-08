@@ -11,10 +11,29 @@ class Ship
     private $table = 'ships';
     private $number, $name, $arrivalTime;
 
+    public static function get(): \Illuminate\Support\Collection
+    {
+        return DB::table('ships')->select('*')->get();
+    }
+
+    public function save($id = null): bool
+    {
+        return DB::table('ships')->updateOrInsert(['id' => $id], [
+            'number' => $this->getNumber(),
+            'name' => $this->getName(),
+            'arrivalTime' => $this->getArrivalTime(),
+            'created_at' => Carbon::now()
+        ]);
+    }
+
+    public static function delete($id) : bool
+    {
+        return DB::table('ships')->where('id', '=', $id)->delete();
+    }
+
     /**
      * Ship constructor.
-     * @param string $table
-     * @param $number
+     * @param string $number
      * @param $name
      * @param $arrivalTime
      */
@@ -23,23 +42,6 @@ class Ship
         $this->number = $number;
         $this->name = $name;
         $this->arrivalTime = $arrivalTime;
-    }
-    public function save($id = null): bool
-    {
-        return DB::table('ships')->updateOrInsert(
-            [
-                'id' => $id
-            ], [
-                'number' => $this->getNumber(),
-                'name' => $this->getName(),
-                'arrivalTime' => $this->getArrivalTime(),
-                'created_at' => Carbon::now()
-            ]
-        );
-    }
-    public function delete($id) : bool
-    {
-        return DB::table('ships')->where('id', '=', $id)->delete();
     }
 
     /**

@@ -49,14 +49,15 @@
             <div id="collapsePages" class="collapse show" aria-labelledby="headingPages"
                  data-parent="#accordionSidebar">
                 <div class="bg-white py-2 collapse-inner rounded">
-                    @if(Session::get('is_admin') == 0)
+                    @if(Session::get('role') == 0)
                         <h6 class="collapse-header">Transaksi</h6>
                         <a class="collapse-item" href="/">Data Transaksi</a>
                     @endif
 
                     @if(Session::get('role') == 1)
                         <h6 class="collapse-header">Admin</h6>
-                        <a class="collapse-item" href="/register">Registrasi User</a>
+                        <a class="collapse-item" href="/ship">Daftar Kapal</a>
+                        <a class="collapse-item" href="/register">Daftar Pengguna</a>
                     @endif
                     <div class="collapse-divider"></div>
                 </div>

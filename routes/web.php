@@ -2,7 +2,8 @@
 
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\AdminController;
+use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\ShipController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -24,5 +25,9 @@ Route::group(['prefix' => 'user'], function (){
 
 Route::group(['prefix' => '/', 'middleware' => 'user'], function (){
     Route::get('/', [DashboardController::class, 'index']);
-    Route::resource('/register', AdminController::class);
+
+    Route::group(['middleware' => 'admin'], function (){
+        Route::resource('/register', RegisterController::class);
+        Route::resource('/ship', ShipController::class);
+    });
 });
