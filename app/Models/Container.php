@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 
 class Container
@@ -9,16 +10,23 @@ class Container
     private $table = 'containers';
     private $number, $type, $size, $ship_id;
 
-    public function save(): bool
+    public function save($id = null): bool
     {
-        return DB::insert('insert into '. $this->table .' (ship_id, number, type, size) values (?, ?, ?, ?)',
+        return DB::table('containers')->updateOrInsert(
             [
-                $this->getShipId(),
-                $this->getNumber(),
-                $this->getType(),
-                $this->getSize()
+                'id' => $id
+            ], [
+                'ship_id' => $this->getShipId(),
+                'number' => $this->getNumber(),
+                'type' => $this->getType(),
+                'size' => $this->getSize(),
+                'created_at' => Carbon::now()
             ]
         );
+    }
+    public function delete($id) : bool
+    {
+        return DB::table('containers')->where('id', '=', $id)->delete();
     }
 
     public function __construct($ship_id, $number, $type, $size)

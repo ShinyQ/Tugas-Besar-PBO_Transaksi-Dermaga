@@ -4,6 +4,7 @@
 namespace App\Models;
 
 
+use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 
 class ItemLiquid extends Item
@@ -23,17 +24,27 @@ class ItemLiquid extends Item
         $this->volume = $volume;
     }
 
-    public function save(): bool
+    public function save($id = null): bool
     {
-        return DB::insert('insert into '. $this->table .'(container_id, name, weight, isFlammable, volume) values (?, ?, ?, ?, ?)',
+        return DB::table('items')->updateOrInsert(
             [
-                parent::getContainer(),
-                parent::getName(),
-                parent::getWeight(),
-                $this->getIsFlammable(),
-                $this->getVolume()
+                'id' => $id
+            ], [
+                'container_id' => parent::getContainer(),
+                'name' => parent::getName(),
+                'weight' => parent::getWeight(),
+                'isFlammable' => $this->getIsFlammable(),
+                'volume' => $this->getVolume(),
+                'created_at' => Carbon::now()
             ]
         );
+    }
+    public function delete($id) : bool
+    {
+        return DB::table('items')
+            ->where('id', '=', $id)
+            ->where('isFlammable', "!=", null)
+            ->delete();
     }
 
     /**

@@ -4,6 +4,7 @@
 namespace App\Models;
 
 
+use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 
 class ItemSolid extends Item
@@ -18,17 +19,27 @@ class ItemSolid extends Item
         $this->quantity = $quantity;
     }
 
-    public function save(): bool
+    public function save($id = null): bool
     {
-        return DB::insert('insert into '. $this->table .'(container_id, name, weight, shape, quantity) values (?, ?, ?, ?, ?)',
+        return DB::table('items')->updateOrInsert(
             [
-                parent::getContainer(),
-                parent::getName(),
-                parent::getWeight(),
-                $this->getShape(),
-                $this->getQuantity()
+                'id' => $id
+            ], [
+                'container_id' => parent::getContainer(),
+                'name' => parent::getName(),
+                'weight' => parent::getWeight(),
+                'shape' => $this->getShape(),
+                'quantity' => $this->getQuantity(),
+                'created_at' => Carbon::now()
             ]
         );
+    }
+    public function delete($id) : bool
+    {
+        return DB::table('items')
+            ->where('id', '=', $id)
+            ->where('shape', '!=', null)
+            ->delete();
     }
 
     /**

@@ -3,6 +3,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 
 class Ship
@@ -23,15 +24,22 @@ class Ship
         $this->name = $name;
         $this->arrivalTime = $arrivalTime;
     }
-    public function save(): bool
+    public function save($id = null): bool
     {
-        return DB::insert('insert into '. $this->table .' (number, name, arrivalTime) values (?, ?, ?)',
+        return DB::table('ships')->updateOrInsert(
             [
-                $this->getNumber(),
-                $this->getName(),
-                $this->getArrivalTime()
+                'id' => $id
+            ], [
+                'number' => $this->getNumber(),
+                'name' => $this->getName(),
+                'arrivalTime' => $this->getArrivalTime(),
+                'created_at' => Carbon::now()
             ]
         );
+    }
+    public function delete($id) : bool
+    {
+        return DB::table('ships')->where('id', '=', $id)->delete();
     }
 
     /**
