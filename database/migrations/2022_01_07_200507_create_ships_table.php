@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateContainersTable extends Migration
+class CreateShipsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,11 @@ class CreateContainersTable extends Migration
      */
     public function up()
     {
-        Schema::create('containers', function (Blueprint $table) {
+        Schema::create('ships', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('ship_id');
             $table->string('number');
-            $table->string('type');
-            $table->string('size');
+            $table->string('name');
+            $table->datetime('arrivalTime');
             $table->timestamps();
         });
     }
@@ -30,6 +29,6 @@ class CreateContainersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('containers');
+        Schema::dropIfExists('ships');
     }
 }

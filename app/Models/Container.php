@@ -7,23 +7,45 @@ use Illuminate\Support\Facades\DB;
 class Container
 {
     private $table = 'containers';
-    private $number, $type, $size;
+    private $number, $type, $size, $ship_id;
 
     public function save(): bool
     {
-        DB::insert('insert into '. $this->table .' (number, type, size) values (?, ?, ?)',
-            [$this->getNumber(), $this->getType(), $this->getSize()]
+        return DB::insert('insert into '. $this->table .' (ship_id, number, type, size) values (?, ?, ?, ?)',
+            [
+                $this->getShipId(),
+                $this->getNumber(),
+                $this->getType(),
+                $this->getSize()
+            ]
         );
-
-        return true;
     }
 
-    public function __construct($number, $type, $size)
+    public function __construct($ship_id, $number, $type, $size)
     {
+        $this->ship_id = $ship_id;
         $this->number = $number;
         $this->type = $type;
         $this->size = $size;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getShipId()
+    {
+        return $this->ship_id;
+    }
+
+    /**
+     * @param mixed $ship_id
+     */
+    public function setShipId($ship_id): void
+    {
+        $this->ship_id = $ship_id;
+    }
+
+
 
     /**
      * @return mixed

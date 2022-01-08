@@ -15,9 +15,13 @@ class CreateItemsTable extends Migration
     {
         Schema::create('items', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('container_id')->constrained();
             $table->string('name');
             $table->string('weight');
-            $table->foreignId('container_id')->constrained();
+            $table->string('isFlammable')->nullable();
+            $table->string('volume')->nullable();
+            $table->string('shape')->nullable();
+            $table->string('quantity')->nullable();
             $table->timestamps();
         });
     }
