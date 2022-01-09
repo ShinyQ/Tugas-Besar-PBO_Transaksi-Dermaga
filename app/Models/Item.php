@@ -2,13 +2,14 @@
 
 namespace App\Models;
 
+use ArrivalTime;
 use Illuminate\Support\Facades\DB;
 
-class Item
+class Item implements ArrivalTime
 {
     private $table = 'items';
     private $name, $weight;
-    private $container;
+    private $container, $arrivalTime;
 
     /**
      * @param $name
@@ -38,6 +39,24 @@ class Item
     {
         $this->name = $name;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getArrivalTime()
+    {
+        return $this->arrivalTime;
+    }
+
+    /**
+     * @param mixed $arrivalTime
+     */
+    public function setArrivalTime($arrivalTime): void
+    {
+        $this->arrivalTime = $arrivalTime;
+    }
+
+
 
     /**
      * @return mixed

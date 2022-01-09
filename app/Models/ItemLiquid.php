@@ -32,7 +32,7 @@ class ItemLiquid extends Item
                 'id' => $id
             ], [
                 'container_id' => parent::getContainer(),
-                'transaction_id' => $this->getTransactionId();
+                'transaction_id' => $this->getTransactionId(),
                 'name' => parent::getName(),
                 'weight' => parent::getWeight(),
                 'isFlammable' => $this->getIsFlammable(),
