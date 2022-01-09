@@ -36,12 +36,6 @@ class ShipController extends Controller
         return redirect('/ship')->with('success', 'Sukses Mengupdate Data Kapal');
     }
 
-    function show($id)
-    {
-        //  $ship = Ship::getDetail($id);
-        // return view('ship_detail', compact('ship'));
-    }
-
     public function destroy($id)
     {
         Ship::delete($id);

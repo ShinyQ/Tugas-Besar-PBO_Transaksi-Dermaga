@@ -1,7 +1,13 @@
 @extends('template.layout')
 @section('content')
     <!-- Page Heading -->
-    <h1 class="h3 mb-2 text-black"><b>Detail Kapal {{ $ship->name }} ({{ $ship->number }})</b></h1>
+    <h1 class="h3 mb-2 text-black">
+            <a style="white-space:nowrap" href="{{ url('/ship/') }}" class="btn btn-primary mr-2">
+                <span class="fa fa-arrow-left"></span>
+            </a>
+
+        <b>Detail Kapal {{ $ship->name }} (No. {{ $ship->number }})</b>
+    </h1>
 
     @if (\Session::has('error'))
         <div class="mt-4 alert alert-danger">
@@ -19,15 +25,30 @@
         <div class="col-md-4">
             <div class="card shadow mb-4 mt-3">
                 <div class="card-body">
-                    <h5 class="mb-3"><b>Tambah Kapal</b></h5>
-                    <form action="/register" method="POST">
+                    <form action="/container" method="POST">
                         @csrf
-                        <input class="form-control mb-3" type="text" name="name" placeholder="Masukkan Nama Kapal">
-                        <input class="form-control mb-3" type="text" name="email" placeholder="Masukkan Nomor Kapal">
-                        Waktu Kedatangan Kapal:
-                        <input class="form-control mb-3" type="datetime-local" name="phone" placeholder="Masukkan Waktu Kedatangan">
+                        <input style='display: none' type="text" name="ship_id" value="{{$ship->id}}">
+
+                        Nomor Container :
+                        <input class="form-control mb-3" type="text" name="number" placeholder="Masukkan Nomor Container">
+
+                        Jenis Container :
+                        <select class="form-control mb-3" type="text" name="type">
+                            <option value="Dry Storage">Dry Storage</option>
+                            <option value="Open Side">Open Side</option>
+                            <option value="Open Top">Open Top</option>
+                        </select>
+
+                        Ukuran Container :
+                        <div class="input-group mb-3">
+                            <input type="text" name="size" class="form-control" placeholder="Masukkan Ukuran Container" aria-label="measurement" aria-describedby="basic-addon2">
+                            <div class="input-group-append">
+                                <span class="input-group-text" id="basic-addon2">ft</span>
+                            </div>
+                        </div>
+
                         <div style="float:right">
-                            <input class="btn btn-danger" type="submit" value="Delete">
+                            <input class="btn btn-primary" type="submit" value="Tambah Data">
                         </div>
                     </form>
                 </div>
@@ -42,23 +63,93 @@
                             <thead style="text-align: center">
                             <tr>
                                 <th>No.</th>
-                                <th>Nama</th>
-                                <th>Nomor Kapal</th>
-                                <th>Waktu Kedatangan</th>
+                                <th>Nomor Container</th>
+                                <th>Tipe</th>
+                                <th>Ukuran</th>
                                 <th>Action</th>
                             </tr>
                             </thead>
                             <tbody style="text-align: center">
-                            @foreach($ships as $i => $ship)
+                            @foreach($containers as $i => $container)
                                 <tr>
                                     <th scope="row">{{ $i + 1 }}</th>
-                                    <td>{{ $ship->name }}</td>
-                                    <td>{{ $ship->number }}</td>
-                                    <td>{{ $ship->arrivalTime }}</td>
+                                    <td>{{ $container->number }}</td>
+                                    <td>{{ $container->type }}</td>
+                                    <td>{{ $container->size }}</td>
                                     <td>
-                                        <a href="{{ url('/ship/'. $ship->id) }}" class="btn btn-primary">Detail</a>
+                                        <a href="{{ url('/container/transaction/'. $container->id) }}" class="btn btn-primary"><span class="fa fa-receipt"></span></a>
+                                        <a data-toggle="modal" data-target="#modal-container-{{ $container->id }}" class="btn btn-warning"><span class="fa fa-edit"></span></a>
+                                        <button data-toggle="modal" data-target="#delete-container-{{ $container->id }}" class="btn btn-danger" type="submit">
+                                            <span class="fa fa-trash"></span>
+                                        </button>
                                     </td>
                                 </tr>
+
+                                <div class="modal fade" id="modal-container-{{ $container->id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLabel"><b>Update Data Container</b></h5>
+                                                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">×</span>
+                                                </button>
+                                            </div>
+                                            <form action="/container/{{ $container->id }}" method="POST">
+                                                <div class="modal-body">
+                                                    @method('PUT')
+                                                    @csrf
+                                                    <input style='display: none' type="text" name="ship_id" value="{{$ship->id}}">
+
+                                                    Nomor Container :
+                                                    <input class="form-control mb-3" type="text" name="number" placeholder="Masukkan Nomor Container" value="{{ $container->number }}">
+
+                                                    Jenis Container :
+                                                    <select class="form-control mb-3" type="text" name="type">
+                                                        <option {{$container->type == 'Dry Storage'  ? 'selected' : ''}} value="Dry Storage">Dry Storage</option>
+                                                        <option {{$container->type == 'Open Side'  ? 'selected' : ''}} value="Open Side">Open Side</option>
+                                                        <option {{$container->type == 'Open Top'  ? 'selected' : ''}} value="Open Top">Open Top</option>
+                                                    </select>
+
+                                                    Ukuran Container :
+                                                    <div class="input-group mb-3">
+                                                        <input value="{{ $container->size }}" type="text" name="size" class="form-control" placeholder="Masukkan Ukuran Container" aria-label="measurement" aria-describedby="basic-addon2">
+                                                        <div class="input-group-append">
+                                                            <span class="input-group-text" id="basic-addon2">ft</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <input class="btn btn-primary" type="submit" value="Update Data">
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="modal fade" id="delete-container-{{ $container->id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLabel"><b>Hapus Data Container {{ $container->number }}</b></h5>
+                                                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">×</span>
+                                                </button>
+                                            </div>
+                                            <form action="/container/{{ $container->id }}" method="POST">
+                                                <div class="modal-body">
+                                                    @method('DELETE')
+                                                    @csrf
+                                                    <input style="display: none" type="text" name="id" value="{{ $container->id }}">
+                                                    Apakah Anda Yakin Ingin Menghapus Data Ini ?
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <input class="btn btn-danger" type="submit" value="Hapus Data">
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+
                             @endforeach
                             </tbody>
                         </table>

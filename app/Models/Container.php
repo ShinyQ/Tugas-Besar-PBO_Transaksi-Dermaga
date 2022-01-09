@@ -7,25 +7,25 @@ use Illuminate\Support\Facades\DB;
 
 class Container
 {
-    private $table = 'containers';
     private $number, $type, $size, $ship_id;
+
+    public static function getByShipId($id): \Illuminate\Support\Collection
+    {
+        return DB::table('containers')->select('*')->where('ship_id', $id)->get();
+    }
 
     public function save($id = null): bool
     {
-        return DB::table('containers')->updateOrInsert(
-            [
-                'id' => $id
-            ], [
-                'ship_id' => $this->getShipId(),
-                'number' => $this->getNumber(),
-                'type' => $this->getType(),
-                'size' => $this->getSize(),
-                'created_at' => Carbon::now()
-            ]
-        );
+        return DB::table('containers')->updateOrInsert(['id' => $id], [
+            'ship_id' => $this->getShipId(),
+            'number' => $this->getNumber(),
+            'type' => $this->getType(),
+            'size' => $this->getSize(),
+            'created_at' => Carbon::now()
+        ]);
     }
 
-    public function delete($id) : bool
+    public static function delete($id) : bool
     {
         return DB::table('containers')->where('id', '=', $id)->delete();
     }

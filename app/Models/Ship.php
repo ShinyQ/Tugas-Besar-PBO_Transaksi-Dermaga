@@ -16,6 +16,11 @@ class Ship
         return DB::table('ships')->select('*')->get();
     }
 
+    public static function getById($id)
+    {
+        return DB::table('ships')->select('*')->where('id', $id)->first();
+    }
+
     public function save($id = null): bool
     {
         return DB::table('ships')->updateOrInsert(['id' => $id], [

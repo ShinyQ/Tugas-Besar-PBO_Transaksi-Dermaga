@@ -62,7 +62,7 @@
                                 <td>{{ $ship->number }}</td>
                                 <td>{{ $ship->arrivalTime }} <a href="" data-toggle="modal" data-target="#modal-ship-{{ $ship->id }}"><span class="ml-1 fa fa-edit"></span></a></td>
                                 <td>
-                                    <a style="white-space:nowrap" href="{{ url('/ship/'. $ship->id) }}" class="btn btn-primary"><span class="fa fa-info-circle  "></span></a>
+                                    <a style="white-space:nowrap" href="{{ url('/container/'. $ship->id) }}" class="btn btn-primary"><span class="fa fa-boxes"></span></a>
                                     <button data-toggle="modal" data-target="#delete-ship-{{ $ship->id }}" style="white-space:nowrap" class="btn btn-danger" type="submit">
                                         <span class="fa fa-trash"></span>
                                     </button>

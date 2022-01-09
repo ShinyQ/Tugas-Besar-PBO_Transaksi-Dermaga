@@ -4,6 +4,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\ShipController;
+use App\Http\Controllers\ContainerController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -29,5 +30,6 @@ Route::group(['prefix' => '/', 'middleware' => 'user'], function (){
     Route::group(['middleware' => 'admin'], function (){
         Route::resource('/register', RegisterController::class);
         Route::resource('/ship', ShipController::class);
+        Route::resource('/container', ContainerController::class);
     });
 });
