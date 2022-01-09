@@ -14,13 +14,13 @@ class ShipSeeder extends Seeder
         $data = [
             [
                 'number' => '155255',
-                'name' => 'ShumiShip',
+                'name' => 'GRACE V',
                 'arrivalTime' => '2021-01-31 00:00:00',
                 'created_at' => Carbon::now()
             ],
             [
                 'number' => '212455',
-                'name' => 'MK Ship',
+                'name' => 'SOECHI PRESTASI',
                 'arrivalTime' => '2021-01-10 00:00:00',
                 'created_at' => Carbon::now()
             ]

@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\DB;
 
 class ItemLiquid extends Item
 {
-    private $name, $weight, $isFlammable, $volume, $container;
+    private $name, $weight, $isFlammable, $volume, $container, $transaction_id;
     private $table = 'items';
 
     /**
@@ -17,9 +17,10 @@ class ItemLiquid extends Item
      * @param $isFlammable
      * @param $volume
      */
-    public function __construct($name, $weight, $container, $isFlammable, $volume)
+    public function __construct($transaction_id, $name, $weight, $container, $isFlammable, $volume)
     {
         parent::__construct($name, $weight, $container);
+        $this->transaction_id = $transaction_id;
         $this->isFlammable = $isFlammable;
         $this->volume = $volume;
     }
@@ -31,6 +32,7 @@ class ItemLiquid extends Item
                 'id' => $id
             ], [
                 'container_id' => parent::getContainer(),
+                'transaction_id' => $this->getTransactionId();
                 'name' => parent::getName(),
                 'weight' => parent::getWeight(),
                 'isFlammable' => $this->getIsFlammable(),
@@ -54,6 +56,24 @@ class ItemLiquid extends Item
     {
         return $this->name;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getTransactionId()
+    {
+        return $this->transaction_id;
+    }
+
+    /**
+     * @param mixed $transaction_id
+     */
+    public function setTransactionId($transaction_id): void
+    {
+        $this->transaction_id = $transaction_id;
+    }
+
+
 
     /**
      * @param mixed $name

@@ -20,8 +20,36 @@ class ContainerSeeder extends Seeder
                 'created_at' => Carbon::now()
             ],
             [
-                'ship_id' => 2,
+                'ship_id' => 1,
                 'number' => '25521',
+                'type' => 'Open Side',
+                'size' => 'medium',
+                'created_at' => Carbon::now()
+            ],
+            [
+                'ship_id' => 1,
+                'number' => '10001',
+                'type' => 'Open Side',
+                'size' => 'large',
+                'created_at' => Carbon::now()
+            ],
+            [
+                'ship_id' => 2,
+                'number' => '10005',
+                'type' => 'Open Side',
+                'size' => 'medium',
+                'created_at' => Carbon::now()
+            ],
+            [
+                'ship_id' => 2,
+                'number' => '10002',
+                'type' => 'Open Side',
+                'size' => 'medium',
+                'created_at' => Carbon::now()
+            ],
+            [
+                'ship_id' => 2,
+                'number' => '10003',
                 'type' => 'Open Side',
                 'size' => 'medium',
                 'created_at' => Carbon::now()
