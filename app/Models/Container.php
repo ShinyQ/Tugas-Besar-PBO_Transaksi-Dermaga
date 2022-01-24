@@ -7,11 +7,21 @@ use Illuminate\Support\Facades\DB;
 
 class Container
 {
-    private $number, $type, $size, $ship_id;
+    private $id, $number, $type, $size, $ship_id;
 
     public static function getByShipId($id): \Illuminate\Support\Collection
     {
         return DB::table('containers')->select('*')->where('ship_id', $id)->get();
+    }
+
+    public static function getById($id): Container
+    {
+        return new Container(get_object_vars(
+            DB::table('containers')
+                ->select('*')
+                ->where('id', $id)
+                ->first()
+        ));
     }
 
     public function save($id = null): bool
@@ -30,12 +40,27 @@ class Container
         return DB::table('containers')->where('id', '=', $id)->delete();
     }
 
-    public function __construct($ship_id, $number, $type, $size)
+    public function __construct(array $data = array())
     {
-        $this->ship_id = $ship_id;
-        $this->number = $number;
-        $this->type = $type;
-        $this->size = $size;
+        foreach($data as $key => $value) {
+            $this->$key = $value;
+        }
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * @param mixed $id
+     */
+    public function setId($id): void
+    {
+        $this->id = $id;
     }
 
     /**
@@ -53,8 +78,6 @@ class Container
     {
         $this->ship_id = $ship_id;
     }
-
-
 
     /**
      * @return mixed

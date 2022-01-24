@@ -15,22 +15,22 @@ class ShipController extends Controller
     }
 
     public function store(Request $request){
-        $ship = new Ship(
-            $request->number,
-            $request->name,
-            $request->arrivalTime,
-        );
+        $ship = new Ship([
+            'number' => $request->number,
+            'name' => $request->name,
+            'arrivalTime' => $request->arrivalTime
+        ]);
 
         $ship->save();
         return redirect('/ship')->with('success', 'Sukses Menambahkan Kapal');
     }
 
     public function update(Request $request){
-        $ship = new Ship(
-            $request->number,
-            $request->name,
-            $request->arrivalTime,
-        );
+        $ship = new Ship([
+            'number' => $request->number,
+            'name' => $request->name,
+            'arrivalTime' => $request->arrivalTime
+        ]);
 
         $ship->save($request->id);
         return redirect('/ship')->with('success', 'Sukses Mengupdate Data Kapal');

@@ -16,15 +16,15 @@ class UserController extends Controller
 
     public function login(Request $request)
     {
-        $response = User::login($request->username, $request->password);
+        $user = User::login($request->username, $request->password);
 
-        if (empty($response)) {
+        if (empty($user)) {
             return redirect()->back()->with('error', 'Username Atau Password Anda Salah');
         }
 
-        $request->session()->put('id', $response[0]->id);
-        $request->session()->put('username', $response[0]->name);
-        $request->session()->put('role', $response[0]->is_admin);
+        $request->session()->put('id', $user->getId());
+        $request->session()->put('username', $user->getName());
+        $request->session()->put('role', $user->getIsAdmin());
 
         return redirect('/');
     }

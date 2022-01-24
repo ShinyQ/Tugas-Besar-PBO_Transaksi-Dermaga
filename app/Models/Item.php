@@ -4,23 +4,56 @@ namespace App\Models;
 
 use Illuminate\Support\Facades\DB;
 
-class Item
+abstract class Item
 {
-    private $table = 'items';
-    private $name, $weight;
-    private $container;
+    private $id, $name, $weight, $container, $transaction_id;
+
+    public function get(): \Illuminate\Support\Collection
+    {
+        return DB::table('items')
+            ->join('containers', 'items.container_id', '=', 'containers.id')
+            ->get();
+    }
+
+    public static function getById($id): \Illuminate\Support\Collection
+    {
+        return DB::table('items')
+            ->join('containers', 'items.container_id', '=', 'containers.id')
+            ->where('transaction_id', $id)
+            ->select('containers.id as container_id', 'containers.number', 'items.*')
+            ->get();
+    }
+
+    public static function delete($id) : bool
+    {
+        return DB::table('items')->where('id', '=', $id)->delete();
+    }
 
     /**
-     * @param $name
-     * @param $weight
-     * @param $container
+     * @param array $data
      */
 
-    public function __construct($name, $weight, $container)
+    public function __construct(array $data = array())
     {
-        $this->name = $name;
-        $this->weight = $weight;
-        $this->container = $container;
+        foreach($data as $key => $value) {
+            $this->$key = $value;
+        }
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * @param mixed $id
+     */
+    public function setId($id): void
+    {
+        $this->id = $id;
     }
 
     /**
@@ -71,11 +104,19 @@ class Item
         $this->container = $container;
     }
 
-    public function get(): \Illuminate\Support\Collection
+    /**
+     * @return mixed
+     */
+    public function getTransactionId()
     {
-        return DB::table($this->table)
-           ->join('containers', 'items.container_id', '=', 'containers.id')
-           ->get();
+        return $this->transaction_id;
+    }
 
+    /**
+     * @param mixed $transaction_id
+     */
+    public function setTransactionId($transaction_id): void
+    {
+        $this->transaction_id = $transaction_id;
     }
 }

@@ -19,7 +19,7 @@ class CreateItemsTable extends Migration
             $table->foreignId('transaction_id')->constrained()->onDelete('cascade');
             $table->string('name');
             $table->string('weight');
-            $table->string('isFlammable')->nullable();
+            $table->boolean('isFlammable')->nullable();
             $table->string('volume')->nullable();
             $table->string('shape')->nullable();
             $table->string('quantity')->nullable();

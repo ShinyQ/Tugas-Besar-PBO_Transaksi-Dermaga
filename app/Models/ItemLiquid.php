@@ -1,26 +1,34 @@
 <?php
 
-
 namespace App\Models;
-
 
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 
 class ItemLiquid extends Item
 {
-    private $name, $weight, $isFlammable, $volume, $container, $transaction_id;
-    private $table = 'items';
+    private $isFlammable, $volume;
 
     /**
      * ItemLiquid constructor.
+     * @param $id
+     * @param $transaction_id
+     * @param $name
+     * @param $weight
+     * @param $container
      * @param $isFlammable
      * @param $volume
      */
-    public function __construct($transaction_id, $name, $weight, $container, $isFlammable, $volume)
+    public function __construct($id, $transaction_id, $name, $weight, $container, $isFlammable, $volume)
     {
-        parent::__construct($name, $weight, $container);
-        $this->transaction_id = $transaction_id;
+        parent::__construct([
+            'id' => $id,
+            'transaction_id' => $transaction_id,
+            'container' => $container,
+            'weight' => $weight,
+            'name' => $name
+        ]);
+
         $this->isFlammable = $isFlammable;
         $this->volume = $volume;
     }
@@ -32,7 +40,7 @@ class ItemLiquid extends Item
                 'id' => $id
             ], [
                 'container_id' => parent::getContainer(),
-                'transaction_id' => $this->getTransactionId();
+                'transaction_id' => parent::getTransactionId(),
                 'name' => parent::getName(),
                 'weight' => parent::getWeight(),
                 'isFlammable' => $this->getIsFlammable(),
@@ -40,63 +48,6 @@ class ItemLiquid extends Item
                 'created_at' => Carbon::now()
             ]
         );
-    }
-    public function delete($id) : bool
-    {
-        return DB::table('items')
-            ->where('id', '=', $id)
-            ->where('isFlammable', "!=", null)
-            ->delete();
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getName()
-    {
-        return $this->name;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getTransactionId()
-    {
-        return $this->transaction_id;
-    }
-
-    /**
-     * @param mixed $transaction_id
-     */
-    public function setTransactionId($transaction_id): void
-    {
-        $this->transaction_id = $transaction_id;
-    }
-
-
-
-    /**
-     * @param mixed $name
-     */
-    public function setName($name): void
-    {
-        $this->name = $name;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getWeight()
-    {
-        return $this->weight;
-    }
-
-    /**
-     * @param mixed $weight
-     */
-    public function setWeight($weight): void
-    {
-        $this->weight = $weight;
     }
 
     /**
@@ -130,24 +81,4 @@ class ItemLiquid extends Item
     {
         $this->volume = $volume;
     }
-
-    /**
-     * @return mixed
-     */
-    public function getContainer()
-    {
-        return $this->container;
-    }
-
-    /**
-     * @param mixed $container
-     */
-    public function setContainer($container): void
-    {
-        $this->container = $container;
-    }
-
-
-
-
 }

@@ -50,18 +50,30 @@
                             </thead>
                             <tbody style="text-align: center">
                             @foreach($users as $i => $user)
+                                @php
+                                    $user = new \App\Models\User([
+                                         'id' => $user->id,
+                                         'name' => $user->name,
+                                         'email' => $user->email,
+                                         'password' => $user->password,
+                                         'address' => $user->address,
+                                         'phone' => $user->phone,
+                                         'is_admin' => $user->is_admin
+                                    ]);
+                                @endphp
                                 <tr>
                                     <th scope="row">{{ $i + 1 }}</th>
-                                    <td>{{ $user->name }}</td>
-                                    <td>{{ $user->phone }}</td>
+                                    <td>{{ $user->getName() }}</td>
+                                    <td>{{ $user->getPhone() }}</td>
                                     <td>
-                                        <button type="button" class="btn btn-primary" role="button" data-toggle="modal" data-target="#modal-user-{{ $user->id }}">
+                                        <a class="btn btn-primary" href="/user/transaction/{{ $user->getId() }}"><span class="fa fa-receipt"></span></a>
+                                        <button type="button" class="btn btn-info" role="button" data-toggle="modal" data-target="#modal-user-{{ $user->getId() }}">
                                             <span class="fa fa-edit"></span>
                                         </button>
                                     </td>
                                 </tr>
 
-                                <div class="modal fade" id="modal-user-{{ $user->id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal fade" id="modal-user-{{ $user->getId() }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                     <div class="modal-dialog" role="document">
                                         <div class="modal-content">
                                             <div class="modal-header">
@@ -70,17 +82,17 @@
                                                     <span aria-hidden="true">×</span>
                                                 </button>
                                             </div>
-                                            <form action="/register/{{ $user->id }}" method="POST">
+                                            <form action="/register/{{ $user->getId() }}" method="POST">
                                                 <div class="modal-body">
                                                         @method('PUT')
                                                         @csrf
-                                                        <input style="display: none" type="text" name="id" value="{{ $user->id }}">
-                                                        <input style="display: none" type="text" name="password" value="{{ $user->password }}">
+                                                        <input style="display: none" type="text" name="id" value="{{ $user->getId() }}">
+                                                        <input style="display: none" type="text" name="password" value="{{ $user->getPassword() }}">
 
-                                                        Nama : <input class="form-control mb-3" type="text" name="name" placeholder="Masukkan Nama" value="{{ $user->name }}">
-                                                        Email : <input class="form-control mb-3" type="text" name="email" placeholder="Masukkan Email" value="{{ $user->email }}">
-                                                        Nomor Handphone : <input class="form-control mb-3" type="text" name="phone" placeholder="Masukkan Nomor HP" value="{{ $user->phone }}">
-                                                        Alamat : <textarea style="height: 120px" class="form-control mb-3" name="address">{{ $user->address }}</textarea>
+                                                        Nama : <input class="form-control mb-3" type="text" name="name" placeholder="Masukkan Nama" value="{{ $user->getName() }}">
+                                                        Email : <input class="form-control mb-3" type="text" name="email" placeholder="Masukkan Email" value="{{ $user->getEmail() }}">
+                                                        Nomor Handphone : <input class="form-control mb-3" type="text" name="phone" placeholder="Masukkan Nomor HP" value="{{ $user->getPhone() }}">
+                                                        Alamat : <textarea style="height: 120px" class="form-control mb-3" name="address">{{ $user->getAddress() }}</textarea>
                                                 </div>
                                                 <div class="modal-footer">
                                                     <input class="btn btn-primary" type="submit" value="Update Data">

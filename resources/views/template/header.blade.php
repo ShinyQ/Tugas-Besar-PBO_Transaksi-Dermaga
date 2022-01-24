@@ -55,9 +55,12 @@
                     @endif
 
                     @if(Session::get('role') == 1)
-                        <h6 class="collapse-header">Admin</h6>
-                        <a class="collapse-item" href="/ship">Halaman Kapal</a>
+                        <h6 class="collapse-header">User</h6>
                         <a class="collapse-item" href="/register">Halaman Pengguna</a>
+                        <a class="collapse-item" href="/transaction">Halaman Transaksi</a>
+
+                        <h6 class="collapse-header">Pelabuhan</h6>
+                        <a class="collapse-item" href="/ship">Halaman Kapal</a>
                     @endif
                     <div class="collapse-divider"></div>
                 </div>
