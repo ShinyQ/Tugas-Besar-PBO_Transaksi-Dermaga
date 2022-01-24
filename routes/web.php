@@ -26,6 +26,7 @@ Route::group(['prefix' => 'user'], function (){
 
 Route::group(['prefix' => '/', 'middleware' => 'user'], function (){
     Route::get('/', [DashboardController::class, 'index']);
+    Route::get('/statistic', [\App\Http\Controllers\StatisticController::class, 'statistic']);
 
     Route::group(['middleware' => 'admin'], function (){
         Route::resource('/register', RegisterController::class);

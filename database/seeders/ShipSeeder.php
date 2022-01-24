@@ -23,6 +23,18 @@ class ShipSeeder extends Seeder
                 'name' => 'SOECHI PRESTASI',
                 'arrivalTime' => '2021-01-10 00:00:00',
                 'created_at' => Carbon::now()
+            ],
+            [
+                'number' => '155257',
+                'name' => 'MAERSK',
+                'arrivalTime' => '2022-01-12 00:00:00',
+                'created_at' => Carbon::now()
+            ],
+            [
+                'number' => '155258',
+                'name' => 'MSC',
+                'arrivalTime' => '2022-01-14 00:00:00',
+                'created_at' => Carbon::now()
             ]
         ];
 

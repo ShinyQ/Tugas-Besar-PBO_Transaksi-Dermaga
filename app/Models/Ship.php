@@ -3,11 +3,10 @@
 
 namespace App\Models;
 
-use ArrivalTime;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 
-class Ship implements ArrivalTime
+class Ship
 {
     private $table = 'ships';
     private $number, $name, $arrivalTime;

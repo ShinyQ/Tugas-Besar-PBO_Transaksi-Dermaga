@@ -24,6 +24,18 @@ class TransactionSeeder extends Seeder
                 'totalCost' => '1500000',
                 'totalWeight' => '80',
                 'created_at' => Carbon::now()
+            ],
+            [
+                'user_id' => 3,
+                'totalCost' => '2000000',
+                'totalWeight' => '235',
+                'created_at' => Carbon::now()
+            ],
+            [
+                'user_id' => 4,
+                'totalCost' => '3000000',
+                'totalWeight' => '340',
+                'created_at' => Carbon::now()
             ]
         ];
 
