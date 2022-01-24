@@ -9,12 +9,18 @@ use Illuminate\Support\Facades\DB;
 
 class ItemSolid extends Item
 {
-    private $name, $weight, $shape, $quantity, $container;
-    private $table = 'items';
+    private $shape, $quantity;
 
-    public function __construct($name, $weight, $container, $shape, $quantity)
+    public function __construct($id, $transaction_id, $name, $weight, $container, $shape, $quantity)
     {
-        parent::__construct($name, $weight, $container);
+        parent::__construct([
+            'id' => $id,
+            'transaction_id' => $transaction_id,
+            'container' => $container,
+            'weight' => $weight,
+            'name' => $name
+        ]);
+
         $this->shape = $shape;
         $this->quantity = $quantity;
     }
@@ -26,6 +32,7 @@ class ItemSolid extends Item
                 'id' => $id
             ], [
                 'container_id' => parent::getContainer(),
+                'transaction_id' => parent::getTransactionId(),
                 'name' => parent::getName(),
                 'weight' => parent::getWeight(),
                 'shape' => $this->getShape(),
@@ -33,13 +40,6 @@ class ItemSolid extends Item
                 'created_at' => Carbon::now()
             ]
         );
-    }
-    public function delete($id) : bool
-    {
-        return DB::table('items')
-            ->where('id', '=', $id)
-            ->where('shape', '!=', null)
-            ->delete();
     }
 
     /**
@@ -73,6 +73,4 @@ class ItemSolid extends Item
     {
         $this->quantity = $quantity;
     }
-
-
 }

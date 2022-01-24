@@ -56,20 +56,33 @@
                         </thead>
                         <tbody style="text-align: center">
                         @foreach($ships as $i => $ship)
+                            @php
+                                $ship = new \App\Models\Ship([
+                                    'id' => $ship->id,
+                                    'number' => $ship->number,
+                                    'name' => $ship->name,
+                                    'arrivalTime' => $ship->arrivalTime
+                                ]);
+                            @endphp
                             <tr>
                                 <th scope="row">{{ $i + 1 }}</th>
-                                <td>{{ $ship->name }}</td>
-                                <td>{{ $ship->number }}</td>
-                                <td>{{ $ship->arrivalTime }} <a href="" data-toggle="modal" data-target="#modal-ship-{{ $ship->id }}"><span class="ml-1 fa fa-edit"></span></a></td>
+                                <td>{{ $ship->getName() }}</td>
+                                <td>{{ $ship->getNumber() }}</td>
                                 <td>
-                                    <a style="white-space:nowrap" href="{{ url('/container/'. $ship->id) }}" class="btn btn-primary"><span class="fa fa-boxes"></span></a>
-                                    <button data-toggle="modal" data-target="#delete-ship-{{ $ship->id }}" style="white-space:nowrap" class="btn btn-danger" type="submit">
+                                    {{ $ship->getArrivalTime() }}
+                                    <a href="" data-toggle="modal" data-target="#modal-ship-{{ $ship->getId() }}">
+                                        <span class="ml-1 fa fa-edit"></span>
+                                    </a>
+                                </td>
+                                <td>
+                                    <a style="white-space:nowrap" href="{{ url('/container/'. $ship->getId()) }}" class="btn btn-primary"><span class="fa fa-boxes"></span></a>
+                                    <button data-toggle="modal" data-target="#delete-ship-{{ $ship->getId() }}" style="white-space:nowrap" class="btn btn-danger" type="submit">
                                         <span class="fa fa-trash"></span>
                                     </button>
                                 </td>
                             </tr>
 
-                            <div class="modal fade" id="modal-ship-{{ $ship->id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal fade" id="modal-ship-{{ $ship->getId() }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                 <div class="modal-dialog" role="document">
                                     <div class="modal-content">
                                         <div class="modal-header">
@@ -78,14 +91,14 @@
                                                 <span aria-hidden="true">×</span>
                                             </button>
                                         </div>
-                                        <form action="/ship/{{ $ship->id }}" method="POST">
+                                        <form action="/ship/{{ $ship->getId() }}" method="POST">
                                             <div class="modal-body">
                                                 @method('PUT')
                                                 @csrf
-                                                <input style="display: none" type="text" name="id" value="{{ $ship->id }}">
-                                                Nama : <input class="form-control mb-3" type="text" name="name" placeholder="Masukkan Nama" value="{{ $ship->name }}">
-                                                Nomor Kapal : <input class="form-control mb-3" type="text" name="number" placeholder="Masukkan Nomor Kapal" value="{{ $ship->number }}">
-                                                Waktu Kedatangan Kapal: <input class="form-control mb-3" type="datetime-local" name="arrivalTime" value="{{ $ship->arrivalTime }}">
+                                                <input style="display: none" type="text" name="id" value="{{ $ship->getId() }}">
+                                                Nama : <input class="form-control mb-3" type="text" name="name" placeholder="Masukkan Nama" value="{{ $ship->getName() }}">
+                                                Nomor Kapal : <input class="form-control mb-3" type="text" name="number" placeholder="Masukkan Nomor Kapal" value="{{ $ship->getNumber() }}">
+                                                Waktu Kedatangan Kapal: <input class="form-control mb-3" type="datetime-local" name="arrivalTime" value="{{ \Carbon\Carbon::parse($ship->getArrivalTime())->format('Y-m-d\TH:i') }}">
                                             </div>
                                             <div class="modal-footer">
                                                 <input class="btn btn-primary" type="submit" value="Update Data">
@@ -95,20 +108,20 @@
                                 </div>
                             </div>
 
-                            <div class="modal fade" id="delete-ship-{{ $ship->id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal fade" id="delete-ship-{{ $ship->getId() }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                 <div class="modal-dialog" role="document">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h5 class="modal-title" id="exampleModalLabel"><b>Hapus Data Kapal {{ $ship->name }}</b></h5>
+                                            <h5 class="modal-title" id="exampleModalLabel"><b>Hapus Data Kapal {{ $ship->getName() }}</b></h5>
                                             <button class="close" type="button" data-dismiss="modal" aria-label="Close">
                                                 <span aria-hidden="true">×</span>
                                             </button>
                                         </div>
-                                        <form action="ship/{{ $ship->id }}" method="POST">
+                                        <form action="ship/{{ $ship->getId() }}" method="POST">
                                             <div class="modal-body">
                                                 @method('DELETE')
                                                 @csrf
-                                                <input style="display: none" type="text" name="id" value="{{ $ship->id }}">
+                                                <input style="display: none" type="text" name="id" value="{{ $ship->getId() }}">
                                                 Apakah Anda Yakin Ingin Menghapus Data Ini ?
                                             </div>
                                             <div class="modal-footer">

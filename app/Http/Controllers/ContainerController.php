@@ -10,15 +10,15 @@ class ContainerController extends Controller
 {
     public function store(Request $request)
     {
-        $container = new Container(
-            $request->ship_id,
-            $request->number,
-            $request->type,
-            $request->size
-        );
+        $container = new Container([
+            'ship_id' => $request->ship_id,
+            'number' => $request->number,
+            'type' => $request->type,
+            'size' => $request->size
+        ]);
 
         $container->save();
-        return redirect('/container/'. $request->ship_id);
+        return redirect('/container/'. $request->ship_id)->with('success', 'Sukses Menambahkan Container');
     }
 
     public function show($id)
@@ -32,20 +32,20 @@ class ContainerController extends Controller
 
     public function update(Request $request, $id)
     {
-        $container = new Container(
-            $request->ship_id,
-            $request->number,
-            $request->type,
-            $request->size
-        );
+        $container = new Container([
+            'ship_id' => $request->ship_id,
+            'number' => $request->number,
+            'type' => $request->type,
+            'size' => $request->size
+        ]);
 
         $container->save($id);
-        return redirect('/container/'. $id);
+        return redirect('/container/'. $request->ship_id)->with('success', 'Sukses Mengupdate Container');
     }
 
     public function destroy(Request $request, $id)
     {
         Container::delete($id);
-        return redirect('/container/'. $id);
+        return redirect('/container/'. $request->ship_id)->with('success', 'Sukses Menghapus Container');
     }
 }

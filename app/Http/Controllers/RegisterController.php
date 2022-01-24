@@ -15,26 +15,30 @@ class RegisterController extends Controller
     }
 
     public function store(Request $request){
-        $user = new User(
-            $request->name,
-            $request->email,
-            $request->password,
-            $request->address,
-            $request->phone, 0
-        );
+        $user = new User([
+            'id' => $request->id,
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => $request->password,
+            'address' => $request->address,
+            'phone' => $request->phone,
+            'is_admin' => 0
+        ]);
 
         $user->save();
         return redirect('/register')->with('success', 'Sukses Menambahkan Pengguna');
     }
 
     public function update(Request $request){
-        $user = new User(
-            $request->name,
-            $request->email,
-            $request->password,
-            $request->address,
-            $request->phone, 0
-        );
+        $user = new User([
+            'id' => $request->id,
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => $request->password,
+            'address' => $request->address,
+            'phone' => $request->phone,
+            'is_admin' => 0
+        ]);
 
         $user->save($request->id);
         return redirect('/register')->with('success', 'Sukses Mengupdate Data Pengguna');

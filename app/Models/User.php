@@ -7,11 +7,15 @@ use Carbon\Carbon;
 
 class User
 {
-    private $name, $email, $password, $address, $phone, $is_admin;
+    private $id, $name, $email, $password, $address, $phone, $is_admin;
 
-    public static function login($username, $password): array
+    public static function login($username, $password): User
     {
-        return DB::select('select * from users where name = ? and password = ?', [$username, $password]);
+        return new User(get_object_vars(DB::table('users')
+            ->where('name', $username)
+            ->where('password', $password)
+            ->first())
+        );
     }
 
     public static function get(): \Illuminate\Support\Collection
@@ -19,6 +23,7 @@ class User
         return DB::table('users')
             ->select('*')
             ->where('is_admin', 0)
+            ->orderBy('created_at', 'DESC')
             ->get();
     }
 
@@ -37,25 +42,32 @@ class User
                 'created_at' => Carbon::now()
             ]
         );
-
     }
 
     /**
-     * @param $name
-     * @param $email
-     * @param $password
-     * @param $address
-     * @param $phone
-     * @param $is_admin
+     * @param array $data
      */
-    public function __construct($name, $email, $password, $address, $phone, $is_admin)
+    public function __construct(array $data = array())
     {
-        $this->name = $name;
-        $this->email = $email;
-        $this->password = $password;
-        $this->address = $address;
-        $this->phone = $phone;
-        $this->is_admin = $is_admin;
+        foreach($data as $key => $value) {
+            $this->$key = $value;
+        }
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * @param mixed $id
+     */
+    public function setId($id): void
+    {
+        $this->id = $id;
     }
 
     /**

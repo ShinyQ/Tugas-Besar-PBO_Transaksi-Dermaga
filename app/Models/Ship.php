@@ -8,17 +8,21 @@ use Illuminate\Support\Facades\DB;
 
 class Ship
 {
-    private $table = 'ships';
-    private $number, $name, $arrivalTime;
+    private $id, $number, $name, $arrivalTime;
 
     public static function get(): \Illuminate\Support\Collection
     {
         return DB::table('ships')->select('*')->get();
     }
 
-    public static function getById($id)
+    public static function getById($id): Ship
     {
-        return DB::table('ships')->select('*')->where('id', $id)->first();
+        return new Ship(get_object_vars(
+            DB::table('ships')
+                ->select('*')
+                ->where('id', $id)
+                ->first()
+        ));
     }
 
     public function save($id = null): bool
@@ -37,17 +41,31 @@ class Ship
     }
 
     /**
-     * Ship constructor.
-     * @param string $number
-     * @param $name
-     * @param $arrivalTime
+     * @param array $data
      */
-    public function __construct(string $number, $name, $arrivalTime)
+    public function __construct(array $data = array())
     {
-        $this->number = $number;
-        $this->name = $name;
-        $this->arrivalTime = $arrivalTime;
+        foreach($data as $key => $value) {
+            $this->$key = $value;
+        }
     }
+
+    /**
+     * @return mixed
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * @param mixed $id
+     */
+    public function setId($id): void
+    {
+        $this->id = $id;
+    }
+
 
     /**
      * @return string

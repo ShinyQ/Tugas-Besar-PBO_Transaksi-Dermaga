@@ -5,8 +5,7 @@
             <a style="white-space:nowrap" href="{{ url('/ship/') }}" class="btn btn-primary mr-2">
                 <span class="fa fa-arrow-left"></span>
             </a>
-
-        <b>Detail Kapal {{ $ship->name }} (No. {{ $ship->number }})</b>
+        <b>Detail Kapal {{ $ship->getName() }} (No. {{ $ship->getNumber() }})</b>
     </h1>
 
     @if (\Session::has('error'))
@@ -27,7 +26,7 @@
                 <div class="card-body">
                     <form action="/container" method="POST">
                         @csrf
-                        <input style='display: none' type="text" name="ship_id" value="{{$ship->id}}">
+                        <input style='display: none' type="text" name="ship_id" value="{{ $ship->getId() }}">
 
                         Nomor Container :
                         <input class="form-control mb-3" type="text" name="number" placeholder="Masukkan Nomor Container">
@@ -71,21 +70,30 @@
                             </thead>
                             <tbody style="text-align: center">
                             @foreach($containers as $i => $container)
+                                @php
+                                    $container = new \App\Models\Container([
+                                        'id' => $container->id,
+                                        'ship_id' => $container->ship_id,
+                                        'number' => $container->number,
+                                        'type' => $container->type,
+                                        'size' => $container->size
+                                    ])
+                                @endphp
                                 <tr>
                                     <th scope="row">{{ $i + 1 }}</th>
-                                    <td>{{ $container->number }}</td>
-                                    <td>{{ $container->type }}</td>
-                                    <td>{{ $container->size }}</td>
+                                    <td>{{ $container->getNumber() }}</td>
+                                    <td>{{ $container->getType() }}</td>
+                                    <td>{{ $container->getSize() }}</td>
                                     <td>
-                                        <a href="{{ url('/container/transaction/'. $container->id) }}" class="btn btn-primary"><span class="fa fa-receipt"></span></a>
-                                        <a data-toggle="modal" data-target="#modal-container-{{ $container->id }}" class="btn btn-warning"><span class="fa fa-edit"></span></a>
-                                        <button data-toggle="modal" data-target="#delete-container-{{ $container->id }}" class="btn btn-danger" type="submit">
+                                        <a href="{{ url('/container/transaction/'. $container->getId()) }}" class="btn btn-primary"><span class="fa fa-receipt"></span></a>
+                                        <a data-toggle="modal" data-target="#modal-container-{{ $container->getId() }}" class="btn btn-warning"><span class="fa fa-edit"></span></a>
+                                        <button data-toggle="modal" data-target="#delete-container-{{ $container->getId() }}" class="btn btn-danger" type="submit">
                                             <span class="fa fa-trash"></span>
                                         </button>
                                     </td>
                                 </tr>
 
-                                <div class="modal fade" id="modal-container-{{ $container->id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal fade" id="modal-container-{{ $container->getId() }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                     <div class="modal-dialog" role="document">
                                         <div class="modal-content">
                                             <div class="modal-header">
@@ -94,25 +102,25 @@
                                                     <span aria-hidden="true">×</span>
                                                 </button>
                                             </div>
-                                            <form action="/container/{{ $container->id }}" method="POST">
+                                            <form action="/container/{{ $container->getId() }}" method="POST">
                                                 <div class="modal-body">
                                                     @method('PUT')
                                                     @csrf
-                                                    <input style='display: none' type="text" name="ship_id" value="{{$ship->id}}">
+                                                    <input style='display: none' type="text" name="ship_id" value="{{$ship->getId()}}">
 
                                                     Nomor Container :
-                                                    <input class="form-control mb-3" type="text" name="number" placeholder="Masukkan Nomor Container" value="{{ $container->number }}">
+                                                    <input class="form-control mb-3" type="text" name="number" placeholder="Masukkan Nomor Container" value="{{ $container->getNumber() }}">
 
                                                     Jenis Container :
                                                     <select class="form-control mb-3" type="text" name="type">
-                                                        <option {{$container->type == 'Dry Storage'  ? 'selected' : ''}} value="Dry Storage">Dry Storage</option>
-                                                        <option {{$container->type == 'Open Side'  ? 'selected' : ''}} value="Open Side">Open Side</option>
-                                                        <option {{$container->type == 'Open Top'  ? 'selected' : ''}} value="Open Top">Open Top</option>
+                                                        <option {{$container->getType() == 'Dry Storage'  ? 'selected' : ''}} value="Dry Storage">Dry Storage</option>
+                                                        <option {{$container->getType() == 'Open Side'  ? 'selected' : ''}} value="Open Side">Open Side</option>
+                                                        <option {{$container->getType() == 'Open Top'  ? 'selected' : ''}} value="Open Top">Open Top</option>
                                                     </select>
 
                                                     Ukuran Container :
                                                     <div class="input-group mb-3">
-                                                        <input value="{{ $container->size }}" type="text" name="size" class="form-control" placeholder="Masukkan Ukuran Container" aria-label="measurement" aria-describedby="basic-addon2">
+                                                        <input value="{{ $container->getSize() }}" type="text" name="size" class="form-control" placeholder="Masukkan Ukuran Container" aria-label="measurement" aria-describedby="basic-addon2">
                                                         <div class="input-group-append">
                                                             <span class="input-group-text" id="basic-addon2">ft</span>
                                                         </div>
@@ -126,20 +134,20 @@
                                     </div>
                                 </div>
 
-                                <div class="modal fade" id="delete-container-{{ $container->id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal fade" id="delete-container-{{ $container->getId() }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                     <div class="modal-dialog" role="document">
                                         <div class="modal-content">
                                             <div class="modal-header">
-                                                <h5 class="modal-title" id="exampleModalLabel"><b>Hapus Data Container {{ $container->number }}</b></h5>
+                                                <h5 class="modal-title" id="exampleModalLabel"><b>Hapus Data Container {{ $container->getNumber() }}</b></h5>
                                                 <button class="close" type="button" data-dismiss="modal" aria-label="Close">
                                                     <span aria-hidden="true">×</span>
                                                 </button>
                                             </div>
-                                            <form action="/container/{{ $container->id }}" method="POST">
+                                            <form action="/container/{{ $container->getId() }}" method="POST">
                                                 <div class="modal-body">
                                                     @method('DELETE')
                                                     @csrf
-                                                    <input style="display: none" type="text" name="id" value="{{ $container->id }}">
+                                                    <input style="display: none" type="text" name="ship_id" value="{{ $container->getShipId() }}">
                                                     Apakah Anda Yakin Ingin Menghapus Data Ini ?
                                                 </div>
                                                 <div class="modal-footer">

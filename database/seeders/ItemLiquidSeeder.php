@@ -17,7 +17,7 @@ class ItemLiquidSeeder extends Seeder
                 'transaction_id' => 1,
                 'name' => 'cola',
                 'weight' => '10',
-                'isFlammable' => 'False',
+                'isFlammable' => 0,
                 'volume' => '5000',
                 'created_at' => Carbon::now()
             ],
@@ -26,7 +26,7 @@ class ItemLiquidSeeder extends Seeder
                 'transaction_id' => 2,
                 'name' => 'sprite',
                 'weight' => '10',
-                'isFlammable' => 'False',
+                'isFlammable' => 0,
                 'volume' => '10000',
                 'created_at' => Carbon::now()
             ],
@@ -35,7 +35,7 @@ class ItemLiquidSeeder extends Seeder
                 'transaction_id' => 1,
                 'name' => 'aqua',
                 'weight' => '10',
-                'isFlammable' => 'False',
+                'isFlammable' => 0,
                 'volume' => '10000',
                 'created_at' => Carbon::now()
             ],
@@ -44,7 +44,7 @@ class ItemLiquidSeeder extends Seeder
                 'transaction_id' => 2,
                 'name' => 'pertalite',
                 'weight' => '10',
-                'isFlammable' => 'True',
+                'isFlammable' => 0,
                 'volume' => '10000',
                 'created_at' => Carbon::now()
             ],
@@ -53,7 +53,7 @@ class ItemLiquidSeeder extends Seeder
                 'transaction_id' => 1,
                 'name' => 'Pertamax',
                 'weight' => '10',
-                'isFlammable' => 'True',
+                'isFlammable' => 1,
                 'volume' => '10000',
                 'created_at' => Carbon::now()
             ],
@@ -62,7 +62,7 @@ class ItemLiquidSeeder extends Seeder
                 'transaction_id' => 2,
                 'name' => 'Pertamax Turbo',
                 'weight' => '10',
-                'isFlammable' => 'True',
+                'isFlammable' => 1,
                 'volume' => '10000',
                 'created_at' => Carbon::now()
             ],
@@ -71,7 +71,7 @@ class ItemLiquidSeeder extends Seeder
                 'transaction_id' => 1,
                 'name' => 'Shell V',
                 'weight' => '10',
-                'isFlammable' => 'True',
+                'isFlammable' => 1,
                 'volume' => '10000',
                 'created_at' => Carbon::now()
             ],
@@ -80,7 +80,7 @@ class ItemLiquidSeeder extends Seeder
                 'transaction_id' => 2,
                 'name' => 'Minute Maid',
                 'weight' => '10',
-                'isFlammable' => 'False',
+                'isFlammable' => 0,
                 'volume' => '10000',
                 'created_at' => Carbon::now()
             ],
@@ -89,7 +89,7 @@ class ItemLiquidSeeder extends Seeder
                 'transaction_id' => 1,
                 'name' => 'Fresh Tea',
                 'weight' => '10',
-                'isFlammable' => 'False',
+                'isFlammable' => 0,
                 'volume' => '10000',
                 'created_at' => Carbon::now()
             ],
