@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use ArrivalTime;
 use Illuminate\Support\Facades\DB;
 
 abstract class Item
@@ -32,7 +33,6 @@ abstract class Item
     /**
      * @param array $data
      */
-
     public function __construct(array $data = array())
     {
         foreach($data as $key => $value) {
@@ -70,6 +70,22 @@ abstract class Item
     public function setName($name): void
     {
         $this->name = $name;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getArrivalTime()
+    {
+        return $this->arrivalTime;
+    }
+
+    /**
+     * @param mixed $arrivalTime
+     */
+    public function setArrivalTime($arrivalTime): void
+    {
+        $this->arrivalTime = $arrivalTime;
     }
 
     /**

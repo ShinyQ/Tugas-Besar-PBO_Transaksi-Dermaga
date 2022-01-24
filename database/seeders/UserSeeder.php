@@ -18,31 +18,49 @@ class UserSeeder extends Seeder
         $data = [
             [
                 'name' => 'Hanvito Michael Lee',
-                'email' => 'user@gmail.com',
-                'password' => 'user',
-                'phone' => '012345678',
-                'address' => 'sit dolor amet amet',
+                'email' => 'vitomichael@gmail.com',
+                'password' => 'user1',
+                'phone' => '08123456789',
+                'address' => 'Jl. Padang Panjang',
                 'is_admin' => 0,
                 'created_at' => Carbon::now()
             ],
             [
                 'name' => 'Naufal Haritsah Luthfi',
-                'email' => 'user1@gmail.com',
-                'password' => 'user1',
-                'phone' => '0123456781',
-                'address' => 'sit dolor amet amet',
+                'email' => 'naufalharitsah@gmail.com',
+                'password' => 'user2',
+                'phone' => '081234567810',
+                'address' => 'Jl. Buah Batu',
+                'is_admin' => 0,
+                'created_at' => Carbon::now()
+            ],
+            [
+                'name' => 'Kurniadi Ahmad Wijaya',
+                'email' => 'kurniadi@gmail.com',
+                'password' => 'user3',
+                'phone' => '081234567812',
+                'address' => 'Jl. Sukapura',
+                'is_admin' => 0,
+                'created_at' => Carbon::now()
+            ],
+            [
+                'name' => 'Firdaus Putra Kurniyanto',
+                'email' => 'firdaus@gmail.com',
+                'password' => 'user4',
+                'phone' => '081234567813',
+                'address' => 'Jl. Terusan Buah Batu',
                 'is_admin' => 0,
                 'created_at' => Carbon::now()
             ],
             [
                 'name' => 'admin',
                 'email' => 'admin@gmail.com',
-                'password' => '1234',
-                'phone' => '012345678',
-                'address' => 'sit dolor amet amet',
+                'password' => 'admin',
+                'phone' => '081234567811',
+                'address' => 'Jl. Sukabirus',
                 'is_admin' => 1,
                 'created_at' => Carbon::now()
-            ]
+            ],
         ];
 
         DB::table('users')->insert($data);
