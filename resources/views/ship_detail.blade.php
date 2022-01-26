@@ -57,6 +57,7 @@
         <div class="col-md-8">
             <div class="card shadow mb-4 mt-3">
                 <div class="card-body">
+                    <h3 class="mb-4" style="font-weight: bold; font-size: 18px">Barang Akan Sampai Dalam {{ \App\Models\Transaction::getTimeArrival($ship->getId()) }}</h3>
                     <div class="table-responsive">
                         <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                             <thead style="text-align: center">

@@ -9,10 +9,10 @@ class User
 {
     private $id, $name, $email, $password, $address, $phone, $is_admin;
 
-    public static function login($username, $password)
+    public static function login($email, $password)
     {
         $user = DB::table('users')
-            ->where('name', $username)
+            ->where('email', $email)
             ->where('password', $password)
             ->first();
 

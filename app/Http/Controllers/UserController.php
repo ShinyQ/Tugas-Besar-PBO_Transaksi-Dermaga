@@ -16,7 +16,7 @@ class UserController extends Controller
 
     public function login(Request $request)
     {
-        $data = User::login($request->username, $request->password);
+        $data = User::login($request->email, $request->password);
 
         if (empty($data)) {
             return redirect()->back()->with('error', 'Username Atau Password Anda Salah');

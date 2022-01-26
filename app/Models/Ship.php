@@ -11,11 +11,15 @@ class Ship implements ArrivalTime
 {
     private $id, $number, $name, $arrivalTime;
 
-    public function getTimeArrival(): string
+    public static function getTimeArrival($id): string
     {
-        $datestr = $this->getArrivalTime();
-        $date = strtotime($datestr);
+        $ship =  DB::table('ships')
+            ->select('*')
+            ->where('id', $id)
+            ->first();
 
+        $datestr = $ship->arrivalTime;
+        $date = strtotime($datestr);
         $diff = $date - time();
         $days = floor($diff / (60 * 60 * 24));
         $hours = round(($diff - $days* 60 * 60 * 24) / (60 * 60));

@@ -12,14 +12,16 @@ class Transaction implements ArrivalTime
 {
     private $id, $user_id, $ship_id, $totalCost, $totalWeight, $arrivalTime;
 
-    public function getTimeArrival(): string
+    public static function getTimeArrival($id): string
     {
-        $date = strtotime($this->getArrivalTime());
+        $transaction = DB::table('transactions')->where('id', $id)->first();
+
+        $date = strtotime($transaction->arrivalTime);
         $diff = $date - time();
         $days = floor($diff / (60 * 60 * 24));
         $hours = round(($diff - $days* 60 * 60 * 24) / (60 * 60));
 
-        return "Tanggal ". $datestr .", ". $days ." Hari ". $hours ." Jam";
+        return $days * -1 ." Hari ". $hours ." Jam";
     }
 
     public static function updateTransactionWeight($action, $id, $weight): bool

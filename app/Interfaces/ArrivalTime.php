@@ -3,5 +3,5 @@ namespace App\Interfaces;
 
 interface ArrivalTime
 {
-    public function getTimeArrival();
+    public static function getTimeArrival(int $id);
 }
