@@ -10,7 +10,6 @@
     @endif
     <div class="card shadow mb-4 mt-3">
         <div class="card-body">
-            <h3 style="font-weight: bold; font-size: 18px">Barang akan sampai dalam {{ \App\Models\Transaction::getTimeArrival($transaction_id) }}</h3>
             <div class="table-responsive">
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                     <thead style="text-align: center">

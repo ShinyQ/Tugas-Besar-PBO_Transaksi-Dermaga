@@ -1,5 +1,6 @@
 @extends('template.layout')
 @section('content')
+
     <!-- Page Heading -->
     <h1 class="h3 mb-2 text-black">
             <a style="white-space:nowrap" href="{{ url('/ship/') }}" class="btn btn-primary mr-2">
