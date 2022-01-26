@@ -30,6 +30,8 @@
                         <th>Jumlah</th>
                         <th>Nomor Container</th>
                         <th>Jenis</th>
+                        <th>Bentuk</th>
+                        <th>Mudah Terbakar</th>
                         <th>Aksi</th>
                     </tr>
                     </thead>
@@ -37,22 +39,22 @@
                     @foreach($items as $i => $val)
                         @php
                             if($val->quantity) {
-                                $item = new \App\Models\ItemSolid(
-                                    $val->id,
-                                    $val->transaction_id,
-                                    $val->name,
-                                    $val->weight,
-                                    $val->number,
+                                $item = new \App\Models\ItemSolid([
+                                    'id' => $val->id,
+                                    'name' => $val->name,
+                                    'transaction_id' => $val->transaction_id,
+                                    'weight' => $val->weight,
+                                    'container' => $val->number],
                                     $val->shape,
                                     $val->quantity
                                 );
                             } else {
-                                $item = new \App\Models\ItemLiquid(
-                                    $val->id,
-                                    $val->transaction_id,
-                                    $val->name,
-                                    $val->weight,
-                                    $val->number,
+                                $item = new \App\Models\ItemLiquid([
+                                    'id' => $val->id,
+                                    'name' => $val->name,
+                                    'transaction_id' => $val->transaction_id,
+                                    'weight' => $val->weight,
+                                    'container' => $val->number],
                                     $val->isFlammable,
                                     $val->volume
                                 );
@@ -66,6 +68,8 @@
                             <td>{{ $item instanceof \App\Models\ItemSolid ? $item->getQuantity() . ' Pcs' : $item->getVolume() . ' Liter'}}</td>
                             <td>{{ $item->getContainer() }}</td>
                             <td>{{ $item instanceof  \App\Models\ItemSolid ? 'Padat' : 'Cair' }} </td>
+                            <td>{{ $item instanceof  \App\Models\ItemSolid ? $item->getShape() : '-' }} </td>
+                            <td>{{ $item instanceof  \App\Models\ItemLiquid ? ($item->getIsFlammable() == 0 ? 'Tidak' : 'Ya') : '-' }} </td>
                             <td>
                                 <a data-toggle="modal" data-target="#modal-item-{{ $item->getId() }}" style="white-space:nowrap" class="btn btn-primary" type="submit">
                                     <span class="fa fa-edit"></span>
@@ -161,12 +165,11 @@
                             <form action="/item" method="POST">
                                 <div class="modal-body">
                                     @csrf
-                                    <input style="display: none" type="text" name="id" value="{{ $item->getId() }}">
-                                    <input style="display: none" type="text" name="transaction_id" value="{{ $item->getTransactionId() }}">
+                                    <input style="display: none" type="text" name="transaction_id" value="{{ $transaction_id }}">
                                     Pilih Nomor Container :
                                     <select class="form-control mb-3" type="text" name="container_id">
                                         @foreach($containers as $container)
-                                            <option value="{{ $container->id }}" {{$item->getContainer() == $container->number  ? 'selected' : ''}}>
+                                            <option value="{{ $container->id }}">
                                                 {{ $container->number }}
                                             </option>
                                         @endforeach
@@ -188,6 +191,7 @@
                                     <div id="liquid" style="display: none;">
                                         Barang Mudah Terbakar :
                                         <select class="form-control mb-3" name="isFlammable">
+                                            <option></option>
                                             <option value="1">Ya</option>
                                             <option value="0">Tidak</option>
                                         </select>

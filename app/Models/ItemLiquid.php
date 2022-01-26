@@ -11,24 +11,13 @@ class ItemLiquid extends Item
 
     /**
      * ItemLiquid constructor.
-     * @param $id
-     * @param $transaction_id
-     * @param $name
-     * @param $weight
-     * @param $container
+     * @param array $item
      * @param $isFlammable
      * @param $volume
      */
-    public function __construct($id, $transaction_id, $name, $weight, $container, $isFlammable, $volume)
+    public function __construct(array $item, $isFlammable, $volume)
     {
-        parent::__construct([
-            'id' => $id,
-            'transaction_id' => $transaction_id,
-            'container' => $container,
-            'weight' => $weight,
-            'name' => $name
-        ]);
-
+        parent::__construct($item);
         $this->isFlammable = $isFlammable;
         $this->volume = $volume;
     }

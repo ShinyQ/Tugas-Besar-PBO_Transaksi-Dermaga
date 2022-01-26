@@ -9,13 +9,18 @@ class User
 {
     private $id, $name, $email, $password, $address, $phone, $is_admin;
 
-    public static function login($username, $password): User
+    public static function login($username, $password)
     {
-        return new User(get_object_vars(DB::table('users')
+        $user = DB::table('users')
             ->where('name', $username)
             ->where('password', $password)
-            ->first())
-        );
+            ->first();
+
+        if (!empty($user)){
+            return new User(get_object_vars($user));
+        }
+
+        return $user;
     }
 
     public static function get(): \Illuminate\Support\Collection

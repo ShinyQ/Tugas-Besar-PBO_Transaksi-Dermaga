@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use ArrivalTime;
 use Illuminate\Support\Facades\DB;
 
 abstract class Item
@@ -22,6 +21,7 @@ abstract class Item
             ->join('containers', 'items.container_id', '=', 'containers.id')
             ->where('transaction_id', $id)
             ->select('containers.id as container_id', 'containers.number', 'items.*')
+            ->orderBy('created_at', 'DESC')
             ->get();
     }
 
@@ -70,22 +70,6 @@ abstract class Item
     public function setName($name): void
     {
         $this->name = $name;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getArrivalTime()
-    {
-        return $this->arrivalTime;
-    }
-
-    /**
-     * @param mixed $arrivalTime
-     */
-    public function setArrivalTime($arrivalTime): void
-    {
-        $this->arrivalTime = $arrivalTime;
     }
 
     /**

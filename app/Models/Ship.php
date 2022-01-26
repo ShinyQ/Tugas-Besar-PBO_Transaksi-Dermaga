@@ -4,11 +4,24 @@
 namespace App\Models;
 
 use Carbon\Carbon;
+use App\Interfaces\ArrivalTime;
 use Illuminate\Support\Facades\DB;
 
-class Ship
+class Ship implements ArrivalTime
 {
     private $id, $number, $name, $arrivalTime;
+
+    public function getTimeArrival(): string
+    {
+        $datestr = $this->getArrivalTime();
+        $date = strtotime($datestr);
+
+        $diff = $date - time();
+        $days = floor($diff / (60 * 60 * 24));
+        $hours = round(($diff - $days* 60 * 60 * 24) / (60 * 60));
+
+        return "$days Hari $hours Jam";
+    }
 
     public static function get(): \Illuminate\Support\Collection
     {
@@ -114,8 +127,4 @@ class Ship
     {
         $this->arrivalTime = $arrivalTime;
     }
-
-
-
-
 }

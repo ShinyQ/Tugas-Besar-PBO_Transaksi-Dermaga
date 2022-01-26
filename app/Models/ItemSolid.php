@@ -11,16 +11,9 @@ class ItemSolid extends Item
 {
     private $shape, $quantity;
 
-    public function __construct($id, $transaction_id, $name, $weight, $container, $shape, $quantity)
+    public function __construct(array $item, $shape, $quantity)
     {
-        parent::__construct([
-            'id' => $id,
-            'transaction_id' => $transaction_id,
-            'container' => $container,
-            'weight' => $weight,
-            'name' => $name
-        ]);
-
+        parent::__construct($item);
         $this->shape = $shape;
         $this->quantity = $quantity;
     }

@@ -36,5 +36,8 @@ Route::group(['prefix' => '/', 'middleware' => 'user'], function (){
         Route::resource('/container', ContainerController::class);
         Route::resource('/item', ItemController::class);
         Route::resource('/transaction', TransactionController::class);
+
+        Route::get('/user/transaction/{id}', [TransactionController::class, 'getUserTransaction']);
+        Route::get('/user/transaction/{id}/item', [TransactionController::class, 'getUserTransactionItem']);
     });
 });
