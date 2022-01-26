@@ -37,10 +37,10 @@
                         @php
                             $transaction = new \App\Models\Transaction(
                                [
-                                    'id' => $val->id,
-                                    'created_at' => $val->created_at,
-                                    'totalWeight' => $val->totalWeight,
-                                    'totalCost' => $val->totalCost
+                                'id' => $val->id,
+                                'created_at' => $val->created_at,
+                                'totalWeight' => $val->totalWeight,
+                                'totalCost' => $val->totalCost
                                ]
                             )
                         @endphp

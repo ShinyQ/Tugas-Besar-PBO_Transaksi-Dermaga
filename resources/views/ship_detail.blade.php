@@ -85,7 +85,7 @@
                                     <td>{{ $container->getType() }}</td>
                                     <td>{{ $container->getSize() }}</td>
                                     <td>
-                                        <a href="{{ url('/container/transaction/'. $container->getId()) }}" class="btn btn-primary"><span class="fa fa-receipt"></span></a>
+                                        <a href="{{ url('/container/'. $container->getId()) .'/item'}}" class="btn btn-primary"><span class="fa fa-receipt"></span></a>
                                         <a data-toggle="modal" data-target="#modal-container-{{ $container->getId() }}" class="btn btn-warning"><span class="fa fa-edit"></span></a>
                                         <button data-toggle="modal" data-target="#delete-container-{{ $container->getId() }}" class="btn btn-danger" type="submit">
                                             <span class="fa fa-trash"></span>

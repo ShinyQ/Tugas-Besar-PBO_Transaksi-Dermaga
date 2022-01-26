@@ -8,6 +8,16 @@ abstract class Item
 {
     private $id, $name, $weight, $container, $transaction_id;
 
+    public static function getByContainer($id): \Illuminate\Support\Collection
+    {
+        return DB::table('items')
+            ->join('containers', 'items.container_id', '=', 'containers.id')
+            ->where('container_id', $id)
+            ->select('containers.id as container_id', 'containers.number', 'items.*')
+            ->orderBy('created_at', 'DESC')
+            ->get();
+    }
+
     public function get(): \Illuminate\Support\Collection
     {
         return DB::table('items')

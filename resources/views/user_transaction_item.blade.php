@@ -1,8 +1,11 @@
 @extends('template.layout')
 @section('content')
     <!-- Page Heading -->
-    <h1 class="h3 mb-2 text-black"><b>Detail Transaksi #{{ $transaction_id }}</b></h1>
-
+    @if(!empty($transaction_id))
+        <h1 class="h3 mb-2 text-black"><b>Detail Transaksi #{{ $transaction_id }}</b></h1>
+    @else
+        <h1 class="h3 mb-2 text-black"><b>{{ $title }}</b></h1>
+    @endif
     <div class="card shadow mb-4 mt-3">
         <div class="card-body">
             <div class="table-responsive">

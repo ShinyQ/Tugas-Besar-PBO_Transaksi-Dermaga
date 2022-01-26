@@ -29,6 +29,7 @@ Route::group(['prefix' => 'user'], function (){
 Route::group(['prefix' => '/', 'middleware' => 'user'], function (){
     Route::get('/', [DashboardController::class, 'index']);
     Route::get('/statistic', [\App\Http\Controllers\StatisticController::class, 'statistic']);
+    Route::get('/user/transaction/{id}/item', [TransactionController::class, 'getUserTransactionItem']);
 
     Route::group(['middleware' => 'admin'], function (){
         Route::resource('/register', RegisterController::class);
@@ -36,8 +37,7 @@ Route::group(['prefix' => '/', 'middleware' => 'user'], function (){
         Route::resource('/container', ContainerController::class);
         Route::resource('/item', ItemController::class);
         Route::resource('/transaction', TransactionController::class);
-
         Route::get('/user/transaction/{id}', [TransactionController::class, 'getUserTransaction']);
-        Route::get('/user/transaction/{id}/item', [TransactionController::class, 'getUserTransactionItem']);
+        Route::get('/container/{id}/item', [ItemController::class, 'getContainerItem']);
     });
 });

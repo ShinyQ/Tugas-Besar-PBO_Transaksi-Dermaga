@@ -36,6 +36,13 @@ class ItemController extends Controller
         return $item;
     }
 
+    public function getContainerItem($id){
+        $title = "List Item Container #".$id;
+        $items = Item::getByContainer($id);
+
+        return view('user_transaction_item', compact('title','items'));
+    }
+
     public function store(Request $request): \Illuminate\Http\RedirectResponse
     {
         $item = $this->new_item($request);
